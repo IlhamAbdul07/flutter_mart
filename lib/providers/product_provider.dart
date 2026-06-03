@@ -8,7 +8,7 @@ class ProductProvider extends ChangeNotifier {
 
   List<Product> get products => _products;
 
-  void LoadProduct() {
+  void loadProduct() {
     _products = _productRepository.getProducts();
     notifyListeners();
   }
