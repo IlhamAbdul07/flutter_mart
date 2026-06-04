@@ -3,14 +3,17 @@ import 'package:flutter_mart/models/cart_item.dart';
 import 'package:flutter_mart/models/product.dart';
 
 class CartProvider extends ChangeNotifier {
-  List<CartItem> _cart = [];
+  final List<CartItem> _cart = [];
 
   List<CartItem> get cart => _cart;
+  double get totalPrice =>
+      _cart.fold(0.0, (total, item) => total + item.subtotal);
   void addItem(Product product) {
     // terima product dari luar
     final cartItem = CartItem(productType: product, quantity: 1);
     // buat CartItem baru dari product itu
     _cart.add(cartItem);
+
     // masukkan ke _cart
     notifyListeners();
     // beritahu widget

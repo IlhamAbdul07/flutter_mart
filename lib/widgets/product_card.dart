@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mart/models/product.dart';
+import 'package:flutter_mart/providers/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -43,7 +45,9 @@ class ProductCard extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                context.read<CartProvider>().addItem(product);
+              },
               label: Text('Add To Cart'),
               icon: Icon(Icons.trolley),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mart/providers/cart_provider.dart';
 import 'package:flutter_mart/providers/product_provider.dart';
+import 'package:flutter_mart/screens/cart_screen.dart';
 import 'package:flutter_mart/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Mart',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       home: const HomeScreen(),
