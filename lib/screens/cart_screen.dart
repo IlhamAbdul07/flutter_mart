@@ -19,8 +19,18 @@ class CartScreen extends StatelessWidget {
             children: [
               ListTile(
                 // leading: Image.network(src),
-                title: Text(item[index].productType.name),
+                title: Text(
+                  '${item[index].productType.name} x ${item[index].quantity}',
+                ),
                 subtitle: Text('Rp ${item[index].subtotal.toStringAsFixed(0)}'),
+                trailing: IconButton(
+                  onPressed: () {
+                    context.read<CartProvider>().removeItem(
+                      item[index].productType,
+                    );
+                  },
+                  icon: Icon(Icons.delete),
+                ),
               ),
               const SizedBox(height: 15),
             ],
