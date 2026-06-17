@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mart/providers/cart_provider.dart';
+import 'package:flutter_mart/utils/currency_formatter.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
@@ -12,30 +13,56 @@ class CartScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Keranjang Belanja')),
-      body: ListView.builder(
-        itemCount: item.length,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              ListTile(
-                // leading: Image.network(src),
-                title: Text(
-                  '${item[index].productType.name} x ${item[index].quantity}',
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: cartProvider.cart.isEmpty
+            ? const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 64,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(height: 16),
+                    Text('Keranjang kamu masih kosong'),
+                  ],
                 ),
-                subtitle: Text('Rp ${item[index].subtotal.toStringAsFixed(0)}'),
-                trailing: IconButton(
-                  onPressed: () {
-                    context.read<CartProvider>().removeItem(
-                      item[index].productType,
-                    );
-                  },
-                  icon: Icon(Icons.delete),
-                ),
+              )
+            : ListView.builder(
+                itemCount: item.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      ListTile(
+                        leading: Image.network(
+                          item[index].productType.imageUrl,
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
+                        title: Text(
+                          '${item[index].productType.name} x ${item[index].quantity}',
+                        ),
+                        subtitle: Text(
+                          // 'Rp ${item[index].subtotal.toStringAsFixed(0)}',
+                          formatRupiah(item[index].subtotal),
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {
+                            context.read<CartProvider>().removeItem(
+                              item[index].productType,
+                            );
+                          },
+                          icon: Icon(Icons.delete),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                    ],
+                  );
+                },
               ),
-              const SizedBox(height: 15),
-            ],
-          );
-        },
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(16),
@@ -43,7 +70,7 @@ class CartScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Rp ${cartProvider.totalPrice.toStringAsFixed(0)}'),
+            Text(formatRupiah(cartProvider.totalPrice)),
             TextButton(
               onPressed: () {},
               child: const Text('Lanjutkan Pembayaran'),

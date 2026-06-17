@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mart/models/product.dart';
 import 'package:flutter_mart/providers/cart_provider.dart';
 import 'package:flutter_mart/screens/detail_screen.dart';
+import 'package:flutter_mart/utils/currency_formatter.dart';
 import 'package:provider/provider.dart';
 
 class ProductCard extends StatelessWidget {
@@ -26,7 +27,7 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(25)),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -48,7 +49,7 @@ class ProductCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'Rp ${product.price.toStringAsFixed(0)}',
+                formatRupiah(product.price),
                 style: TextStyle(
                   color: Colors.black87,
                   fontSize: 13,
@@ -59,8 +60,11 @@ class ProductCard extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: () {
                   context.read<CartProvider>().addItem(product);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Produk ditambahkan ke keranjang')),
+                  );
                 },
-                label: Text('Add To Cart'),
+                label: Text('Add To Cart', style: TextStyle(fontSize: 10)),
                 icon: Icon(Icons.trolley),
               ),
             ],
