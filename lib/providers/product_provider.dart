@@ -8,8 +8,8 @@ class ProductProvider extends ChangeNotifier {
 
   List<Product> get products => _products;
 
-  void loadProduct() {
-    _products = _productRepository.getProducts();
+  Future<void> loadProduct() async {
+    _products = await _productRepository.getProducts();
     notifyListeners();
   }
 }
