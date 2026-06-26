@@ -1,7 +1,8 @@
 import '../models/product.dart';
 
 class ProductRepository {
-  List<Product> getProducts() {
+  Future<List<Product>> getProducts() async {
+    await Future.delayed(Duration(seconds: 2));
     return [
       Product(
         id: '1',

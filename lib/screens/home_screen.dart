@@ -27,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final product = productProvider.products;
     final cartProvider = context.watch<CartProvider>();
     final cart = cartProvider.cart;
+    final bool isLoading = productProvider.isLoading;
+    final String? errorMessage = productProvider.errorMessage;
     return Scaffold(
       appBar: AppBar(
         title: Text('FlutterMart'),
@@ -50,23 +52,27 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.55,
-            crossAxisSpacing: 1,
-            mainAxisSpacing: 1,
-          ),
-          itemCount: product.length,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                ProductCard(product: product[index]),
-                const SizedBox(height: 15),
-              ],
-            );
-          },
-        ),
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : errorMessage != null
+            ? Center(child: Text(errorMessage!))
+            : GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.55,
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1,
+                ),
+                itemCount: product.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      ProductCard(product: product[index]),
+                      const SizedBox(height: 15),
+                    ],
+                  );
+                },
+              ),
       ), // kamu yang isi
     );
   }
