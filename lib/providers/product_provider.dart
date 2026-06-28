@@ -20,7 +20,7 @@ class ProductProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = "gagal memuat produk";
+      _errorMessage = e.toString();
       _isLoading = false;
       notifyListeners();
     }
