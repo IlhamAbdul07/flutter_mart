@@ -33,6 +33,19 @@ class ProductCard extends StatelessWidget {
             children: [
               Image.network(
                 product.imageUrl,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) =>
+                    Icon(Icons.broken_image),
                 height: 100,
                 width: double.infinity,
                 fit: BoxFit.cover,

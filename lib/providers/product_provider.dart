@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mart/models/product.dart';
 import 'package:flutter_mart/repositories/product_repository.dart';
@@ -20,7 +21,19 @@ class ProductProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = e.toString();
+      if (e is DioException) {
+        switch (e.type) {
+          case DioExceptionType.connectionError:
+            _errorMessage = "Tidak ada koneksi internet";
+          case DioExceptionType.connectionTimeout:
+            _errorMessage = "Koneksi timeout, coba lagi";
+          case DioExceptionType.badResponse:
+            _errorMessage = "Server error: ${e.response?.statusCode}";
+            break;
+          default:
+            _errorMessage = "Gagal Memuat Produk";
+        }
+      }
       _isLoading = false;
       notifyListeners();
     }

@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: isLoading
             ? Center(child: CircularProgressIndicator())
             : errorMessage != null
-            ? Center(child: Text(errorMessage!))
+            ? Center(child: Text(errorMessage))
             : GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
