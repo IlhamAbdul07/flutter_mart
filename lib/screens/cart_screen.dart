@@ -58,6 +58,27 @@ class CartScreen extends StatelessWidget {
                           icon: Icon(Icons.delete),
                         ),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              context.read<CartProvider>().addItem(
+                                item[index].productType,
+                              );
+                            },
+                            icon: Icon(Icons.add_outlined),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              context.read<CartProvider>().decreaseItem(
+                                item[index].productType,
+                              );
+                            },
+                            icon: Icon(Icons.remove_outlined),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 15),
                     ],
                   );

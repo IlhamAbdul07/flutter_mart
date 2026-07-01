@@ -11,7 +11,6 @@ class CartProvider extends ChangeNotifier {
       _cart.fold(0.0, (total, item) => total + item.subtotal);
   void addItem(Product product) {
     // terima product dari luar
-    final cartItem = CartItem(productType: product, quantity: 1);
     final index = _cart.indexWhere((item) => item.productType == product);
     // buat CartItem baru dari product itu
     if (index >= 0) {
@@ -21,6 +20,25 @@ class CartProvider extends ChangeNotifier {
       );
     } else {
       _cart.add(CartItem(productType: product, quantity: 1));
+    }
+
+    // masukkan ke _cart
+    notifyListeners();
+    // beritahu widget
+  }
+
+  void decreaseItem(Product product) {
+    final index = _cart.indexWhere((item) => item.productType == product);
+
+    if (index >= 0) {
+      if (_cart[index].quantity > 1) {
+        _cart[index] = CartItem(
+          productType: product,
+          quantity: _cart[index].quantity - 1,
+        );
+      } else {
+        removeItem(product);
+      }
     }
 
     // masukkan ke _cart
