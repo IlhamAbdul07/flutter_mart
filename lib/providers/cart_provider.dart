@@ -27,7 +27,7 @@ class CartProvider extends ChangeNotifier {
     // beritahu widget
   }
 
-  void decreaseItem(Product product) {
+  bool decreaseItem(Product product) {
     final index = _cart.indexWhere((item) => item.productType == product);
 
     if (index >= 0) {
@@ -38,11 +38,13 @@ class CartProvider extends ChangeNotifier {
         );
       } else {
         removeItem(product);
+        notifyListeners();
+        return true;
       }
+      notifyListeners();
     }
-
     // masukkan ke _cart
-    notifyListeners();
+    return false;
     // beritahu widget
   }
 

@@ -71,9 +71,18 @@ class CartScreen extends StatelessWidget {
                           ),
                           IconButton(
                             onPressed: () {
-                              context.read<CartProvider>().decreaseItem(
-                                item[index].productType,
-                              );
+                              if (context.read<CartProvider>().decreaseItem(
+                                    item[index].productType,
+                                  ) ==
+                                  true) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Produk dihapus dari keranjang',
+                                    ),
+                                  ),
+                                );
+                              }
                             },
                             icon: Icon(Icons.remove_outlined),
                           ),
