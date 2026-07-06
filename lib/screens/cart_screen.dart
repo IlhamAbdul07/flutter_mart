@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mart/providers/cart_provider.dart';
 import 'package:flutter_mart/utils/currency_formatter.dart';
+import 'package:flutter_mart/widgets/appbar_widget.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
@@ -12,7 +13,10 @@ class CartScreen extends StatelessWidget {
     final item = cartProvider.cart;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Keranjang Belanja')),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: const AppbarWidget(title: 'Cart'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: cartProvider.cart.isEmpty
@@ -33,63 +37,92 @@ class CartScreen extends StatelessWidget {
             : ListView.builder(
                 itemCount: item.length,
                 itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      ListTile(
-                        leading: Image.network(
-                          item[index].productType.imageUrl,
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
-                        ),
-                        title: Text(
-                          '${item[index].productType.name} x ${item[index].quantity}',
-                        ),
-                        subtitle: Text(
-                          // 'Rp ${item[index].subtotal.toStringAsFixed(0)}',
-                          formatRupiah(item[index].subtotal),
-                        ),
-                        trailing: IconButton(
-                          onPressed: () {
-                            context.read<CartProvider>().removeItem(
-                              item[index].productType,
-                            );
-                          },
-                          icon: Icon(Icons.delete),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  return Card(
+                    child: Padding(
+                      padding: EdgeInsetsGeometry.all(8),
+                      child: Column(
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              context.read<CartProvider>().addItem(
-                                item[index].productType,
-                              );
-                            },
-                            icon: Icon(Icons.add_outlined),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              if (context.read<CartProvider>().decreaseItem(
+                          Row(
+                            spacing: 8,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.network(
+                                item[index].productType.imageUrl,
+                                width: 60,
+                                height: 60,
+                                fit: BoxFit.cover,
+                              ),
+                              Flexible(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('${item[index].productType.name}'),
+                                    const SizedBox(height: 8),
+                                    Text('Qty: ${item[index].quantity}'),
+                                  ],
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  context.read<CartProvider>().removeItem(
                                     item[index].productType,
-                                  ) ==
-                                  true) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Produk dihapus dari keranjang',
-                                    ),
+                                  );
+                                },
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.redAccent,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Divider(),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  // 'Rp ${item[index].subtotal.toStringAsFixed(0)}',
+                                  formatRupiah(item[index].subtotal),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      context.read<CartProvider>().addItem(
+                                        item[index].productType,
+                                      );
+                                    },
+                                    icon: Icon(Icons.add_outlined),
                                   ),
-                                );
-                              }
-                            },
-                            icon: Icon(Icons.remove_outlined),
+                                  IconButton(
+                                    onPressed: () {
+                                      if (context
+                                              .read<CartProvider>()
+                                              .decreaseItem(
+                                                item[index].productType,
+                                              ) ==
+                                          true) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Produk dihapus dari keranjang',
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    icon: Icon(Icons.remove_outlined),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: 15),
-                    ],
+                    ),
                   );
                 },
               ),
