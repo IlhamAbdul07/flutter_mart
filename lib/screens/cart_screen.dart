@@ -98,11 +98,10 @@ class CartScreen extends StatelessWidget {
                                   IconButton(
                                     onPressed: () {
                                       if (context
-                                              .read<CartProvider>()
-                                              .decreaseItem(
-                                                item[index].productType,
-                                              ) ==
-                                          true) {
+                                          .read<CartProvider>()
+                                          .decreaseItem(
+                                            item[index].productType,
+                                          )) {
                                         ScaffoldMessenger.of(
                                           context,
                                         ).showSnackBar(
