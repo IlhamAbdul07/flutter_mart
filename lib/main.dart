@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mart/providers/cart_provider.dart';
+import 'package:flutter_mart/providers/checkout_provider.dart';
 import 'package:flutter_mart/providers/product_provider.dart';
 import 'package:flutter_mart/screens/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => CheckoutProvider()),
       ],
       child: const MyApp(),
     ),

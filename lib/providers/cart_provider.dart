@@ -9,6 +9,7 @@ class CartProvider extends ChangeNotifier {
   int get totalItem => _cart.length;
   double get totalPrice =>
       _cart.fold(0.0, (total, item) => total + item.subtotal);
+
   void addItem(Product product) {
     // terima product dari luar
     final index = _cart.indexWhere((item) => item.productType == product);

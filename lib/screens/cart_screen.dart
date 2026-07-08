@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mart/providers/cart_provider.dart';
+import 'package:flutter_mart/screens/chekcout_screen.dart';
 import 'package:flutter_mart/utils/currency_formatter.dart';
 import 'package:flutter_mart/widgets/appbar_widget.dart';
 import 'package:provider/provider.dart';
@@ -134,7 +135,20 @@ class CartScreen extends StatelessWidget {
           children: [
             Text(formatRupiah(cartProvider.totalPrice)),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                if (cartProvider.cart.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Keranjang kamu masih kosong'),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CheckoutScreen()),
+                  );
+                }
+              },
               child: const Text('Lanjutkan Pembayaran'),
             ),
           ],
