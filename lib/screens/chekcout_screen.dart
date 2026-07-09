@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mart/providers/cart_provider.dart';
 import 'package:flutter_mart/providers/checkout_provider.dart';
 import 'package:flutter_mart/widgets/appbar_widget.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     final checkoutProvider = context.read<CheckoutProvider>();
+    final cartProvider = context.read<CartProvider>();
+    final item = cartProvider.cart;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -39,6 +42,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         padding: const EdgeInsets.all(18.0),
         child: ListView(
           children: [
+            ...item
+                .map(
+                  (cartItem) => ListTile(
+                    title: Text(cartItem.productType.name),
+                    subtitle: Text('Qty: ${cartItem.quantity}'),
+                  ),
+                )
+                .toList(),
+            const SizedBox(height: 18),
             TextField(
               controller: _nameController,
               onChanged: (value) => checkoutProvider.setField("name", value),
@@ -59,8 +71,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             const SizedBox(height: 8),
             TextField(
               controller: _promoController,
-              onChanged: (value) =>
-                  checkoutProvider.setField("promoCode", value),
+              onChanged: (value) => checkoutProvider.setField("promo", value),
               decoration: const InputDecoration(labelText: "Promo Code"),
             ),
             const SizedBox(height: 8),
