@@ -33,6 +33,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final checkoutProvider = context.read<CheckoutProvider>();
     final cartProvider = context.read<CartProvider>();
     final item = cartProvider.cart;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -80,6 +81,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               onChanged: (value) =>
                   checkoutProvider.setField("paymentMethod", value),
               decoration: const InputDecoration(labelText: "Payment Method"),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.all(8),
+        child: Row(
+          children: [
+            const Text("Ayo bayar"),
+            TextButton(
+              onPressed: () {
+                if (item.isNotEmpty) {
+                  context.read<CheckoutProvider>().submitCheckout(item);
+                  context.read<CartProvider>().clearCart();
+                  //;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Pembayaran Berhasil")),
+                  );
+                }
+              },
+              child: Text("Bayar"),
             ),
           ],
         ),

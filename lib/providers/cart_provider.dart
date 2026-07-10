@@ -55,4 +55,9 @@ class CartProvider extends ChangeNotifier {
     // beritahu widget
     notifyListeners();
   }
+
+  void clearCart() {
+    _cart.clear();
+    notifyListeners();
+  }
 }
