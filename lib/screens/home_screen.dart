@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mart/providers/cart_provider.dart';
 import 'package:flutter_mart/screens/cart_screen.dart';
+import 'package:flutter_mart/utils/app_colors.dart';
 import 'package:provider/provider.dart';
 import '../providers/product_provider.dart';
 import '../widgets/product_card.dart';
@@ -31,7 +32,21 @@ class _HomeScreenState extends State<HomeScreen> {
     final String? errorMessage = productProvider.errorMessage;
     return Scaffold(
       appBar: AppBar(
-        title: Text('FlutterMart'),
+        backgroundColor: AppColors.bgMain,
+        titleSpacing: 10.0,
+        leadingWidth: 65,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 15, bottom: 9),
+          child: CircleAvatar(
+            backgroundImage: AssetImage('assets/logo/logo.png'),
+          ),
+        ),
+        title: const Text(
+          'FlutterMart',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        elevation: 8.0,
+        shadowColor: Colors.blueGrey.withValues(alpha: 0.75),
         actions: [
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -39,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               label: Text('${cartProvider.totalItem}'),
               child: IconButton(
                 icon: Icon(Icons.shopping_cart),
+                color: Colors.white,
                 onPressed: () {
                   Navigator.push(
                     context,

@@ -8,6 +8,8 @@ class AppbarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 8.0,
+      shadowColor: Colors.blueGrey.withValues(alpha: 0.75),
       backgroundColor: AppColors.bgMain,
       iconTheme: IconThemeData(color: Colors.white),
       leading: IconButton(
